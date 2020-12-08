@@ -7,6 +7,9 @@ I have included two files that you can use as example files. Ecoplate03062019.xl
 Absorbance 96 Plate Reader. ecoplate1.xlsx is an example of the format of file the program needs to be able to
 work. ecolab.py is the script that will organize the data in a format that a human can read. 
 
+You will need to have pandas, openpyxl, and xlrd libraries installed. You can install these by either
+pip install openpyxl or conda install openpyxl in the terminal depending on which you are using. 
+
 **Step One**
 Open the output file from the Absorbance 96 Plate Reader it will be Ecoplate(date).xls in excel. Copy the block
 of data starting on C19 and ending on N26. 
