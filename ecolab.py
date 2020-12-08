@@ -200,13 +200,13 @@ sample_list_three.append(de.loc['F',x])
 sample_list_three.append(de.loc['G',x])
 sample_list_three.append(de.loc['H',x])
 #getting the data from the file and placing them into seperate samples
-all_data= {'Metabolism':list_2,'Sample One':sample_list_one,'Sample two':sample_list_two,
-		'Sample three':sample_list_three}
+all_data= {'Metabolism':list_2,'Sample1':sample_list_one,'Sample2':sample_list_two,
+		'Sample3':sample_list_three}
 #creating a dictionary for all my data sets
 
 final = pd.DataFrame(all_data,list) #placing the elements into a dataframe
 
-final #the dataframe
+final.index.name = "Csource" #name the index Csource
 
 def get_filename():
     print("What would you like to name your new file? Can not include a '.'")
