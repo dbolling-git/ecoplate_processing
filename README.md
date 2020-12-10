@@ -11,6 +11,8 @@ work. ecolab.py is the script that will organize the data in a format that a hum
 You will need to have pandas, openpyxl, and xlrd libraries installed. You can install these by either
 pip install openpyxl or conda install openpyxl in the terminal depending on which you are using. 
 
+Be sure to delete the example files, if you do not want them mingling with your data set.
+
 **Step One**
 Be sure to nest the Input, Input_Processed, and Output folders inside of the folder EcoPlate. The Input, 
 Input_Processed, and Output folders must be a subfolder of EcoPlate and must be on the same level together.
