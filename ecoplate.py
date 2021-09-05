@@ -1,5 +1,6 @@
 import pandas as pd
 import argparse
+import numpy as np
 
 
 def split_set(dataframe) -> dict:
@@ -71,9 +72,16 @@ if __name__ == '__main__':
     for key in results.keys():
         if key == 0:
             final_result = get_sample_data(results[key], plate_no, map_names)
+            replicants = list(np.ones(32)) + list(np.ones(32) * 2) + \
+                         list(np.ones(32) * 3)
+            final_result.insert(4, 'Replicate Number', replicants)
+            final_result['Replicate Number'] = final_result['Replicate ' \
+                                                            'Number'].astype(int)
             plate_no += 1
         else:
             temp = get_sample_data(results[key], plate_no, map_names)
+            temp.insert(4, 'Replicate Number', replicants)
+            temp['Replicate Number'] = temp['Replicate Number'].astype(int)
             final_result = pd.concat([final_result, temp], ignore_index=True,
                                      sort=False)
             plate_no += 1
