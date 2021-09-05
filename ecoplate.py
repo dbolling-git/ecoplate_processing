@@ -23,7 +23,7 @@ def split_set(dataframe) -> dict:
     return samples_dict
 
 
-def get_sample_data(dataframe , plate_no, map_dataframe):
+def get_sample_data(dataframe, plate_no, map_dataframe):
     """
     Returns a dataframe of individual 3 plate samples, and maps them to
     their name and class.
@@ -38,21 +38,25 @@ def get_sample_data(dataframe , plate_no, map_dataframe):
     sample_two = dataframe[['E', 'F', 'G', 'H']]
     sample_three = dataframe[['I', 'J', 'K', 'L']]
     all_samples = [sample_one, sample_two, sample_three]
+
     for j, sample in enumerate(all_samples):
         for rows in range(len(sample_one)):
 
             if rows == 0:
                 df = sample.iloc[rows].transpose()
+
             else:
                 temp = sample.iloc[rows].transpose()
                 df = pd.concat([df, temp], ignore_index=True, sort=False)
+
         if j == 0:
             result = df
         else:
             result = pd.concat([result, df], ignore_index=True, sort=False)
     result = pd.DataFrame(result, columns=['Data'])
-    result['Plate Number'] = plate_no
+    result['Plate_Number'] = plate_no
     result = pd.concat([map_dataframe, result], axis=1)
+
     return result
 
 
@@ -62,6 +66,26 @@ def parse_args():
                         required=True)
 
     return parser.parse_args()
+
+
+def create_normalized_data(dataframe):
+    st_dict = {}
+    start_index = 0
+    end_index = 32
+    while end_index <= len(dataframe):
+        st_dict[start_index] = list(round(dataframe.iloc[start_index:end_index][
+                                              'Data'] - dataframe['Data'][
+            start_index], 4))
+        start_index += 32
+        end_index += 32
+    for key in st_dict:
+        if key == 0:
+            st_data = st_dict[key]
+        else:
+            temp = st_dict[key]
+            st_data = st_data + temp
+    dataframe.insert(5, 'St_Data', st_data, allow_duplicates= True)
+    return dataframe
 
 
 if __name__ == '__main__':
@@ -87,6 +111,7 @@ if __name__ == '__main__':
                 final_result = pd.concat([final_result, temp], ignore_index=True,
                                          sort=False)
                 plate_no += 1
+        final_result = create_normalized_data(final_result)
         final_result.to_csv('final.csv', index= False)
         print('final.csv created!\n')
     else:
